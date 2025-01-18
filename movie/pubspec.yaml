@@ -16,6 +16,7 @@ dependencies:
   core:
     path: ../core
   dartz: ^0.10.1
+  device_info_plus: ^11.2.1
   equatable: ^2.0.3
   flutter:
     sdk: flutter

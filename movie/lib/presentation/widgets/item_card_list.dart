@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import '../../domain/entities/movie.dart';
 import '../pages/movie_detail_page.dart';
 
-class ItemCard extends StatelessWidget {
+class ItemCard extends StatefulWidget {
   final Movie movie;
 
   const ItemCard({
@@ -15,86 +15,120 @@ class ItemCard extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  _ItemCardState createState() => _ItemCardState();
+}
+
+class _ItemCardState extends State<ItemCard> {
+  // Crear un FocusNode para manejar el enfoque
+  final FocusNode _focusNode = FocusNode();
+
+  @override
+  void initState() {
+    super.initState();
+    // Añadir un listener para cambiar el estado cuando el foco cambia
+    _focusNode.addListener(() {
+      setState(() {});
+    });
+  }
+
+  @override
+  void dispose() {
+    // No olvides liberar el FocusNode cuando no se necesite más
+    _focusNode.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.pushNamed(
-          context,
-          MovieDetailPage.routeName,
-          arguments: movie.id,
-        );
-      },
-      child: Container(
-        padding: const EdgeInsets.all(8.0),
-        margin: const EdgeInsets.only(bottom: 16.0),
-        decoration: BoxDecoration(
-          color: Colors.grey[850],
-          borderRadius: BorderRadius.circular(10.0),
-        ),
-        child: Row(
-          children: [
-            Expanded(
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(8.0),
-                child: CachedNetworkImage(
-                  imageUrl: Urls.imageUrl(
-                    movie.posterPath!,
+    return Focus(
+      focusNode: _focusNode,
+      child: InkWell(
+        onTap: () {
+          Navigator.pushNamed(
+            context,
+            MovieDetailPage.routeName,
+            arguments: widget.movie.id,
+          );
+        },
+        child: Container(
+          padding: const EdgeInsets.all(8.0),
+          margin: const EdgeInsets.only(bottom: 16.0),
+          decoration: BoxDecoration(
+            color: const Color.fromARGB(255, 255, 0, 0),
+            borderRadius: BorderRadius.circular(10.0),
+            boxShadow: [
+              if (_focusNode.hasFocus)
+                BoxShadow(
+                  color: const Color.fromARGB(255, 255, 0, 0),
+                  blurRadius: 10.0,
+                  spreadRadius: 2.0,
+                ),
+            ],
+          ),
+          child: Row(
+            children: [
+              Expanded(
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(8.0),
+                  child: CachedNetworkImage(
+                    imageUrl: Urls.imageUrl(widget.movie.posterPath!),
+                    placeholder: (context, url) => const Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                    errorWidget: (context, url, error) =>
+                        const Icon(Icons.error),
                   ),
-                  placeholder: (context, url) => const Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                  errorWidget: (context, url, error) => const Icon(Icons.error),
                 ),
               ),
-            ),
-            const SizedBox(width: 16.0),
-            Expanded(
-              flex: 3,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    movie.title ?? '-',
-                    overflow: TextOverflow.ellipsis,
-                    style: kHeading6,
-                    maxLines: 1,
-                  ),
-                  const SizedBox(height: 4.0),
-                  Row(
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 8.0,
-                          vertical: 2.0,
+              const SizedBox(width: 16.0),
+              Expanded(
+                flex: 3,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      widget.movie.title ?? '-',
+                      overflow: TextOverflow.ellipsis,
+                      style: kHeading6,
+                      maxLines: 1,
+                    ),
+                    const SizedBox(height: 4.0),
+                    Row(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 8.0,
+                            vertical: 2.0,
+                          ),
+                          decoration: BoxDecoration(
+                            color: Colors.redAccent,
+                            borderRadius: BorderRadius.circular(4.0),
+                          ),
+                          child: Text(widget.movie.releaseDate!.split('-')[0]),
                         ),
-                        decoration: BoxDecoration(
-                          color: Colors.redAccent,
-                          borderRadius: BorderRadius.circular(4.0),
+                        const SizedBox(width: 16.0),
+                        const Icon(
+                          Icons.star,
+                          color: Colors.amber,
+                          size: 18.0,
                         ),
-                        child: Text(movie.releaseDate!.split('-')[0]),
-                      ),
-                      const SizedBox(width: 16.0),
-                      const Icon(
-                        Icons.star,
-                        color: Colors.amber,
-                        size: 18.0,
-                      ),
-                      const SizedBox(width: 4.0),
-                      Text(
-                        (movie.voteAverage! / 2).toStringAsFixed(1),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 16.0),
-                  Text(
-                    movie.overview ?? '-',
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 2,
-                  ),
-                ],
-              ),
-            )
-          ],
+                        const SizedBox(width: 4.0),
+                        Text(
+                          (widget.movie.voteAverage! / 2).toStringAsFixed(1),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 16.0),
+                    Text(
+                      widget.movie.overview ?? '-',
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
+                    ),
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

@@ -19,29 +19,44 @@ class MinimalDetail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Orientation orientation = MediaQuery.of(context).orientation;
+
+    EdgeInsets pdType;
+    double? boxHeight;
+    if(orientation == Orientation.portrait){
+      boxHeight = null;
+      pdType = const EdgeInsets.all(16.0);
+    }else{
+      pdType = const EdgeInsets.only(top: 16.0);
+      boxHeight = 230.0;
+    }
+
     return SizedBox(
       height: 300.0,
       child: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: pdType,
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Expanded(
-                  flex: 1,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(8.0),
-                    child: CachedNetworkImage(
-                      imageUrl: Urls.imageUrl(movie.posterPath!),
-                      placeholder: (context, url) => const Center(
-                        child: CircularProgressIndicator(),
+                    flex: 1,
+                    child: SizedBox(
+                      height: boxHeight,
+                      
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(8.0),
+                        child: CachedNetworkImage(
+                          imageUrl: Urls.imageUrl(movie.posterPath!),
+                          placeholder: (context, url) => const Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                          errorWidget: (context, url, error) =>
+                              const Icon(Icons.error),
+                        ),
                       ),
-                      errorWidget: (context, url, error) =>
-                          const Icon(Icons.error),
-                    ),
-                  ),
-                ),
+                    )),
                 const SizedBox(width: 16.0),
                 Expanded(
                   flex: 2,
@@ -134,7 +149,7 @@ class MinimalDetail extends StatelessWidget {
             color: Colors.white70,
           ),
           Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(0),
             child: TextButton(
               key: Key(keyValue ?? '-'),
               onPressed: () {
@@ -144,21 +159,22 @@ class MinimalDetail extends StatelessWidget {
                   arguments: movie.id,
                 );
               },
-              child: Row(
+              child: const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Row(
-                    children: const [
+                    children: [
                       Icon(Icons.info_outline, size: 16.0),
                       SizedBox(width: 8.0),
                       Text('Detail & More'),
                     ],
                   ),
-                  const Icon(Icons.arrow_forward_ios_rounded, size: 16.0),
+                  Icon(Icons.arrow_forward_ios_rounded, size: 16.0),
                 ],
               ),
               style: TextButton.styleFrom(
-                foregroundColor: Colors.white, padding: const EdgeInsets.symmetric(
+                foregroundColor: Colors.white,
+                padding: const EdgeInsets.symmetric(
                   horizontal: 16.0,
                   vertical: 16.0,
                 ),
