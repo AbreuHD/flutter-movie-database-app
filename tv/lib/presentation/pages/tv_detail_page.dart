@@ -207,7 +207,7 @@ class _TvDetailContentState extends State<TvDetailContent>
                         ),
                       ),
                       const SizedBox(width: 16.0),
-                      Text(
+                      /*Text(
                         _showEpisodeDuration(widget.tv.episodeRunTime[0]),
                         style: const TextStyle(
                           color: Colors.white70,
@@ -215,7 +215,7 @@ class _TvDetailContentState extends State<TvDetailContent>
                           fontWeight: FontWeight.w500,
                           letterSpacing: 1.2,
                         ),
-                      ),
+                      ),*/
                     ],
                   ),
                   const SizedBox(height: 16.0),
@@ -273,7 +273,7 @@ class _TvDetailContentState extends State<TvDetailContent>
                       ],
                     ),
                     style: ElevatedButton.styleFrom(
-                      primary: widget.isAddedToWatchlist
+                      backgroundColor: widget.isAddedToWatchlist
                           ? Colors.grey[850]
                           : Colors.white,
                       minimumSize: Size(

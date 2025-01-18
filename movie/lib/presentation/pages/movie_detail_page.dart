@@ -238,8 +238,7 @@ class MovieDetailContent extends StatelessWidget {
                       ],
                     ),
                     style: ElevatedButton.styleFrom(
-                      primary:
-                          isAddedToWatchlist ? Colors.grey[850] : Colors.white,
+                      backgroundColor: isAddedToWatchlist ? Colors.grey[850] : Colors.white,
                       minimumSize: Size(
                         MediaQuery.of(context).size.width,
                         42.0,

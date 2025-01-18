@@ -57,7 +57,7 @@ void main() {
 
       await tester.pumpWidget(
         _makeTestableWidget(const PopularTvsPage()),
-        const Duration(milliseconds: 500),
+        duration: const Duration(milliseconds: 500),
       );
       await tester.pumpAndSettle(const Duration(milliseconds: 500));
 
@@ -78,7 +78,7 @@ void main() {
 
       await tester.pumpWidget(
         _makeTestableWidget(const PopularTvsPage()),
-        const Duration(milliseconds: 500),
+        duration: const Duration(milliseconds: 500),
       );
       await tester.pumpAndSettle(const Duration(milliseconds: 500));
 
