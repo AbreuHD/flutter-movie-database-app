@@ -25,7 +25,6 @@ class _ItemCardState extends State<ItemCard> {
   @override
   void initState() {
     super.initState();
-    // Añadir un listener para cambiar el estado cuando el foco cambia
     _focusNode.addListener(() {
       setState(() {});
     });
@@ -33,7 +32,6 @@ class _ItemCardState extends State<ItemCard> {
 
   @override
   void dispose() {
-    // No olvides liberar el FocusNode cuando no se necesite más
     _focusNode.dispose();
     super.dispose();
   }
@@ -51,19 +49,10 @@ class _ItemCardState extends State<ItemCard> {
           );
         },
         child: Container(
-          padding: const EdgeInsets.all(8.0),
-          margin: const EdgeInsets.only(bottom: 16.0),
           decoration: BoxDecoration(
             color: const Color.fromARGB(255, 255, 0, 0),
             borderRadius: BorderRadius.circular(10.0),
-            boxShadow: [
-              if (_focusNode.hasFocus)
-                BoxShadow(
-                  color: const Color.fromARGB(255, 255, 0, 0),
-                  blurRadius: 10.0,
-                  spreadRadius: 2.0,
-                ),
-            ],
+            
           ),
           child: Row(
             children: [
